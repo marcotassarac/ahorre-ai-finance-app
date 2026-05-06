@@ -1,200 +1,132 @@
 # Ahorr-E
 
-Aplicación de **gestión financiera personal** con búsqueda inteligente de ofertas en retail (Falabella) y recomendaciones generadas por IA con *grounding estricto*.
+AI Assisted Personal Finance Manager orientado a optimizar decisiones financieras personales mediante control presupuestario estricto, análisis inteligente de gastos y recomendaciones generadas por IA basadas en datos reales del mercado. contiene derechos de autor 
 
-**Proyecto de portafolio personal** — Desarrollo Full-Stack + IA aplicada
-**Autor:** Marco Tassara
+Ahorr-E nace desde una premisa simple:
 
----
-
-## Stack
-
-| Capa           | Tecnología                                           |
-| -------------- | ---------------------------------------------------- |
-| Frontend + BFF | Next.js 16 (App Router) + React 19 + Tailwind CSS v4 |
-| Auth + DB      | Supabase (PostgreSQL + Auth + RLS)                   |
-| ORM            | Prisma 6                                             |
-| IA             | Google AI SDK (Gemini Flash)                         |
-| Despliegue     | Vercel Serverless                                    |
+> El problema financiero no es cuánto gana una persona, sino cómo decide gastar.
 
 ---
 
-## Arquitectura
+## 🚀 Visión del Proyecto
 
-Sistema de **microservicios serverless** en monorepo con sub-componentes desacoplados:
+Ahorr-E ayuda a los usuarios a **evitar compras impulsivas** y priorizar el ahorro mediante:
 
-| Componente                        | Ubicación                                 |
-| --------------------------------- | ----------------------------------------- |
-| Frontend                          | `app/(app)/`, `app/(auth)/`               |
-| BFF (API Routes + Server Actions) | `app/api/`, `app/(app)/**/actions.ts`     |
-| Microservicio Scraping            | `services/scraper/` + `app/api/scraper/`  |
-| Microservicio IA                  | `services/ai/` + `app/api/ai/recomendar/` |
+- Gestión financiera basada en presupuestos reales
+- Evaluación inteligente antes de realizar una compra
+- Análisis automatizado de precios retail
+- Recomendaciones asistidas por IA con grounding estricto
+- Visualización clara del impacto financiero personal
 
-Patrones arquitectónicos documentados en:
-
-`docs/01-analisis-patrones-y-arquetipos.md`
+El sistema está diseñado bajo principios de **ingeniería escalable**, separando responsabilidades entre interfaz, lógica de negocio y servicios inteligentes.
 
 ---
 
-## Setup local
+## 🧠 Concepto Técnico
 
-### Prerequisitos
+El proyecto integra tres dominios principales:
 
-* Node.js 20+
-* Cuenta Supabase con proyecto creado
-* API Key de Google AI Studio
+### 1. Gestión Financiera
+Control estructurado de presupuestos y gastos personales.
 
-https://aistudio.google.com/apikey
+### 2. Inteligencia de Mercado
+Obtención automatizada de precios retail para apoyar decisiones de compra.
 
----
-
-### Pasos
-
-1. Clonar repositorio:
-
-```bash
-git clone https://github.com/marcotassarac/ahorr-e.git
-cd ahorr-e
-```
-
-2. Instalar dependencias:
-
-```bash
-npm install
-```
-
-3. Configurar variables de entorno:
-
-Copiar `.env.example` a `.env.local`:
-
-```
-NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-DATABASE_URL=...
-DIRECT_URL=...
-GEMINI_API_KEY=...
-```
-
-Opcional para demos offline:
-
-```
-SCRAPER_MOCK=true
-```
+### 3. Inteligencia Artificial Aplicada
+Sistema de recomendaciones que analiza exclusivamente datos verificables evitando respuestas especulativas.
 
 ---
 
-4. Aplicar schema Prisma:
+## ⚙️ Stack Tecnológico
 
-```bash
-npm run db:push
-```
-
----
-
-5. Ejecutar migraciones SQL RLS en Supabase:
-
-* `prisma/sql/01_profiles_trigger.sql`
-* `prisma/sql/02_profiles_rls.sql`
-* `prisma/sql/03_budgets_rls.sql`
-* `prisma/sql/04_expenses_rls.sql`
-* `prisma/sql/05_scraped_prices_rls.sql`
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js (App Router) + React + Tailwind CSS |
+| Backend / BFF | Server Actions + API Routes |
+| Database | PostgreSQL (Supabase) |
+| Seguridad | Supabase Auth + Row Level Security |
+| ORM | Prisma |
+| AI Integration | Google AI SDK (Gemini) |
+| Infraestructura | Serverless Architecture (Vercel) |
 
 ---
 
-6. Levantar servidor:
+## 🏗️ Arquitectura
 
-```bash
-npm run dev
-```
+Arquitectura modular basada en principios modernos:
 
-Abrir:
+- **BFF Pattern** para orquestación frontend/backend
+- **Microservicios serverless** para scraping y procesamiento IA
+- **Separación de dominios** entre datos financieros, análisis y recomendaciones
+- **Grounded AI** para evitar alucinaciones del modelo
+- **Cache inteligente** para optimizar consultas externas
 
-http://localhost:3000
+El sistema fue diseñado priorizando:
 
----
-
-## Comandos disponibles
-
-| Comando                 | Descripción               |
-| ----------------------- | ------------------------- |
-| `npm run dev`           | Servidor de desarrollo    |
-| `npm run build`         | Build producción          |
-| `npm run start`         | Ejecutar build            |
-| `npm run lint`          | ESLint                    |
-| `npm run db:push`       | Sincronizar schema Prisma |
-| `npm run db:studio`     | Prisma Studio             |
-| `npm test`              | Tests Vitest              |
-| `npm run test:watch`    | Tests modo watch          |
-| `npm run test:coverage` | Cobertura                 |
+- mantenibilidad
+- escalabilidad
+- seguridad por diseño
+- bajo acoplamiento
 
 ---
 
-## Estructura de carpetas
+## 📌 Requerimientos Funcionales
 
-```
-app/
-  (auth)/                
-  (app)/                 
-  api/                   
-    scraper/             
-    ai/recomendar/       
-
-lib/
-  prisma.ts
-  supabase/
-  env.ts
-  format.ts
-
-services/
-  auth/
-  budget/
-  scraper/
-  ai/
-
-prisma/
-  schema.prisma
-  sql/
-
-docs/
-
-middleware.ts
-```
+- Gestión de presupuestos personales
+- Registro y seguimiento de gastos
+- Evaluación automática de compras según disponibilidad financiera
+- Análisis histórico de comportamiento financiero
+- Obtención automatizada de precios retail
+- Recomendaciones inteligentes basadas en contexto financiero real
+- Visualización del impacto económico antes de gastar
 
 ---
 
-## Funcionalidades principales
+## 🔒 Requerimientos No Funcionales
 
-* Gestión financiera basada en presupuestos
-* Web Scraping automatizado de ofertas retail
-* Recomendaciones de compra asistidas por IA
-* Evaluación inteligente de decisiones financieras
-* Dashboard de análisis financiero personal
-* Arquitectura desacoplada orientada a escalabilidad
-
----
-
-## Decisiones de Ingeniería
-
-* Grounding estricto para evitar alucinaciones de IA
-* Cache TTL para scraping eficiente
-* Seguridad basada en Row Level Security (RLS)
-* Separación clara entre cliente, BFF y servicios IA
-* Arquitectura Serverless preparada para escalamiento
+- Aislamiento de datos por usuario mediante RLS
+- Arquitectura desacoplada orientada a microservicios
+- Diseño mobile-first
+- Procesamiento asíncrono de servicios externos
+- Seguridad basada en infraestructura
+- Escalabilidad serverless
+- Tolerancia a fallos mediante cache fallback
 
 ---
 
-## Documentación adicional
+## 📈 Reglas de Negocio
 
-* `docs/01-analisis-patrones-y-arquetipos.md`
-* `docs/02-plan-branching.md`
-* `docs/03-guion-presentacion.md`
-* `docs/coverage.md`
-* `services/scraper/README.md`
-* `services/ai/README.md`
+Ahorr-E aplica reglas financieras explícitas:
+
+- No se permite registrar gastos sin presupuesto asociado
+- Las recomendaciones IA solo utilizan datos verificados
+- Las decisiones de compra consideran impacto futuro del usuario
+- El sistema prioriza ahorro sobre consumo
+- Las sugerencias se basan en evidencia de mercado y no en generación libre
 
 ---
 
-## Licencia
+## 🔐 Seguridad
 
-Proyecto publicado como **portafolio personal**.
-No incluye credenciales ni datos sensibles.
+El repositorio público corresponde únicamente a una versión de portafolio.
+
+No incluye:
+
+- credenciales
+- configuraciones privadas
+- datos reales de usuarios
+- infraestructura productiva
+
+---
+
+## 🧑‍💻 Autor
+
+**Marco Tassara**  
+Full-Stack Developer · AI Assisted Development  
+Enfocado en arquitectura moderna, automatización e integración de inteligencia artificial aplicada a software real.
+
+---
+
+## 📄 Licencia
+
+Repositorio publicado únicamente con fines demostrativos, contiene derechos de autor.
